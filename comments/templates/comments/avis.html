@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avis</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Analyse d'avis E-motum</h1>
+        <h2>Pourcentage d'avis positifs</h2>
+        <div class="progress-circle">
+            <div class="progress-circle-fill"></div>
+            <div class="progress-circle-mask"></div>
+            <span class="progress-text">{{ pourcentage_positif|floatformat:2 }}%</span>
+        </div>
+        <div class="stars">
+            <p>Moyenne des notes données par les utilisateurs : {{ moyenne_etoiles|floatformat:2 }} / 5</p>
+        </div>
+        <div class="comments">
+            <div class="comments-positive">
+                <h2>Avis Positifs</h2>
+                {% for avis in avis_positifs %}
+                    <div class="comment">
+                        {{ avis.text }}
+                    </div>
+                {% endfor %}
+                <a href="{% url 'positif' %}">Voir tous les avis positifs</a>
+            </div>
+            <div class="comments-negative">
+                <h2>Avis Négatifs</h2>
+                {% for avis in avis_negatifs %}
+                    <div class="comment">
+                        {{ avis.text }}
+                    </div>
+                {% endfor %}
+                </ul>
+                <a href="{% url 'negatif' %}">Voir tous les avis négatifs</a>
+            </div>
+        </div>
+        
+    </div>
+    <script>
+        var progressCircle = document.querySelector('.progress-circle');
+        var progress = parseInt(progressCircle.getAttribute('data-progress'));
+        var degree = (progress / 100) * 360;
+        progressCircle.style.setProperty('--degree', degree);
+    </script>
+</body>
+</html>
